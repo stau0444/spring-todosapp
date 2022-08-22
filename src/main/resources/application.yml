@@ -1,5 +1,8 @@
+site:
+  author: ugo
+  description: 스프링 할일 관리 애플리케이션
 logging:
   level:
     todoapp: debug
-    org.springframework.web: debug
+    org.springframework.web: trace
     org.springframework.beans: debug
