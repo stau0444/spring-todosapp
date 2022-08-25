@@ -1,15 +1,29 @@
 package com.ugo.todoapp.web;
 
+import com.ugo.todoapp.commons.web.view.CommaSeparatedValuesView;
+import com.ugo.todoapp.core.todos.domain.Todo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.core.convert.support.DefaultConversionService;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.ObjectToStringHttpMessageConverter;
+import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.ugo.todoapp.web.TodoController.*;
 
 /**
  * Spring Web MVC 설정
@@ -47,17 +61,34 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 
     @Override
     public void configureViewResolvers(ViewResolverRegistry registry) {
-        // registry.enableContentNegotiation();
+         //registry.enableContentNegotiation(new CommaSeparatedValuesView());
         // 위와 같이 직접 설정하면, 스프링부트가 구성한 ContentNegotiatingViewResolver 전략이 무시된다.
+        //registry.viewResolver(new TodoCsvViewResolver());
     }
 
+    @Override
+    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        DefaultConversionService conversionService = new DefaultConversionService();
+        conversionService.addConverter(new Converter<Todo, String>() {
+            @Override
+            public String convert(Todo source) {
+                return source.toString();
+            }
+        });
+        converters.add(new ObjectToStringHttpMessageConverter(conversionService));
+    }
     /**
      * 스프링부트가 생성한 ContentNegotiatingViewResolver를 조작할 목적으로 작성된 컴포넌트
      */
+    @Configuration
     public static class ContentNegotiationCustomizer {
 
+        @Autowired
         public void configurer(ContentNegotiatingViewResolver viewResolver) {
             // TODO ContentNegotiatingViewResolver 사용자 정의
+            List<View> defaultViews =  new ArrayList<>(viewResolver.getDefaultViews());
+            defaultViews.add(new CommaSeparatedValuesView());
+            viewResolver.setDefaultViews(defaultViews);
         }
 
     }

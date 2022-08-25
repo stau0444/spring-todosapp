@@ -1,5 +1,11 @@
 package com.ugo.todoapp.web;
 
+import com.ugo.todoapp.web.model.FeatureTogglesProperties;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RestController;
+
 /**
  * `5) 확장 기능 활성화` 요구사항을 구현해보세요.
  *
@@ -16,6 +22,18 @@ package com.ugo.todoapp.web;
  *             "onlineUsersCounter": false
  *     }
  */
+@RestController
 public class FeatureTogglesRestController {
+
+    private final FeatureTogglesProperties featureTogglesProperties;
+
+    public FeatureTogglesRestController(FeatureTogglesProperties featureTogglesProperties) {
+        this.featureTogglesProperties = featureTogglesProperties;
+    }
+
+    @GetMapping("/api/feature-toggles")
+    public FeatureTogglesProperties activateExtension(){
+        return featureTogglesProperties;
+    }
 
 }

@@ -1,6 +1,31 @@
+todo:
+  data:
+    init: true
+  feature:
+    toggles:
+      auth: true
+      onlineUsersCounter: true
 site:
   author: ugo
   description: 스프링 할일 관리 애플리케이션
+
+
+# 요청의 locale에 따라 인코딩을 지정해 줄 수 있다.
+#server:
+#  servlet:
+#    encoding:
+#      mapping:
+#        ko: UTF-8
+
+# 모든 Locale에 인코딩을 utf-8로 강제 설정을 해줄 수 있다.
+server:
+  servlet:
+    encoding:
+      charset: utf-8
+      force: true
+  error:
+    include-message: always
+    include-binding-errors: always
 logging:
   level:
     todoapp: debug

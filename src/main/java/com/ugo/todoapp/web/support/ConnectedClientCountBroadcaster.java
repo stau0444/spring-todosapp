@@ -23,10 +23,12 @@ public class ConnectedClientCountBroadcaster {
     public SseEmitter subscribe() {
         SseEmitter emitter = new SseEmitter(DEFAULT_TIMEOUT);
         emitter.onCompletion(() -> {
+            System.out.println("onCompletion");
             emitters.remove(emitter);
             broadcast();
         });
         emitter.onTimeout(() -> {
+            System.out.println("onTimeout");
             emitters.remove(emitter);
             broadcast();
         });

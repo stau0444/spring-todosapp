@@ -1,10 +1,13 @@
 package com.ugo.todoapp.web.model;
 
+import org.springframework.boot.context.properties.ConfigurationProperties;
+
 /**
  * 기능 토글 모델
  *
  * @author springrunner.kr@gmail.com
  */
+@ConfigurationProperties(prefix = "todo.feature.toggles")
 public class FeatureTogglesProperties {
 
     private boolean auth = false;
