@@ -2,6 +2,8 @@ package com.ugo.todoapp.web;
 
 import com.ugo.todoapp.commons.web.view.CommaSeparatedValuesView;
 import com.ugo.todoapp.core.todos.domain.Todo;
+import com.ugo.todoapp.security.UserSessionRepository;
+import com.ugo.todoapp.security.web.servlet.UserSessionHandlerMethodArgumentResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.ObjectToStringHttpMessageConverter;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
@@ -33,14 +36,23 @@ import static com.ugo.todoapp.web.TodoController.*;
 @Configuration
 //스프링 MVC 전략 빈 설정자
 public class WebMvcConfiguration implements WebMvcConfigurer {
+
+    @Autowired
+    private UserSessionRepository userSessionRepository;
+
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+        resolvers.add(new UserSessionHandlerMethodArgumentResolver(userSessionRepository));
+    }
+
     //정적 자원 제공 전략 설정
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
 //        리소스 핸들러를 등록 , 정적 자원을 제공 하는 핸들러
 //        /서블릿 컨텍스트 경로에서 정적자원제공
 //         /assets 으로 오는 경로를  asset/에서 제공한다는 의미.
-//        registry.addResourceHandler("/assets/**")
-//                .addResourceLocations("assets/");
+        registry.addResourceHandler("/static/assets/**")
+                .addResourceLocations("classpath:static/assets/");
 //
 //        파일 경로에서 정적자원 제공
 //        registry.addResourceHandler("/assets/**")
@@ -48,9 +60,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 //
 //        registry.addResourceHandler("/assets/**")
 //                .addResourceLocations(
-//                        "assets/",
-//                        "classpath:assets/",
-//                        "file:/Users/ugo/IdeaProjects/spring-web-mvc-study/todos/files/assets/"
+//                        "classpath:static/assets/"
 //                );
     }
 

@@ -40,13 +40,13 @@ public class UserSession {
         return roles.contains(role);
     }
 
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("UserSession {");
-        sb.append("user=").append(user);
-        sb.append(", roles=").append(roles);
-        sb.append(" }");
-        return sb.toString();
-    }
+//    @Override
+//    public String toString() {
+//        final StringBuilder sb = new StringBuilder("UserSession {");
+//        sb.append("user=").append(user);
+//        sb.append(", roles=").append(roles);
+//        sb.append(" }");
+//        return sb.toString();
+//    }
 
 }

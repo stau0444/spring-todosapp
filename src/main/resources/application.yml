@@ -1,10 +1,11 @@
+
 todo:
   data:
     init: true
   feature:
     toggles:
       auth: true
-      onlineUsersCounter: true
+      onlineUsersCounter: false
 site:
   author: ugo
   description: 스프링 할일 관리 애플리케이션
@@ -31,3 +32,8 @@ logging:
     todoapp: debug
     org.springframework.web: trace
     org.springframework.beans: debug
+spring:
+  mvc:
+    static-path-pattern: /**
+
+

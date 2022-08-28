@@ -30,17 +30,12 @@ import java.util.*;
 @RequestMapping("/todos")
 public class TodoController {
 
-    private final SiteProperties siteProperties;
     private final TodoFinder finder;
     public TodoController(SiteProperties siteProperties,TodoFinder todoFinder) {
-        this.siteProperties = siteProperties;
         this.finder = todoFinder;
     }
 
-    @ModelAttribute("site")
-    public SiteProperties siteProperties(){
-        return new SiteProperties();
-    }
+
     @RequestMapping("")
     public void todos(){
 
