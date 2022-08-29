@@ -64,6 +64,12 @@ public class LoginController {
         return "redirect:/todos";
     }
 
+    @GetMapping("/logout")
+    public String logout(UserSession userSession){
+        sessionRepository.clear();
+        return "redirect:/todos";
+    }
+
     @ExceptionHandler(BindException.class)
     public String handleBindException(BindException error, Model model){
         model.addAttribute("bindingResult",error.getBindingResult());

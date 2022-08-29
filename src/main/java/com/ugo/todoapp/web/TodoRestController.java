@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -19,6 +20,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/todos")
+@RolesAllowed("ROLE_USER")
 public class TodoRestController {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final TodoFinder todoFinder;
@@ -29,7 +31,7 @@ public class TodoRestController {
         this.todoEditor = todoEditor;
     }
 
-    @GetMapping("")
+    @GetMapping
     public List<Todo> list(){
         return todoFinder.getAll();
     }

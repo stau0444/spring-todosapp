@@ -299,11 +299,18 @@ server:
 
 
 
-### HandlerMethodArgumentResolver
+#### HandlerMethodArgumentResolver
 
 - HandlerMethodArgumentResolver를 통해 핸들러의 파라미터에 접근해 
 - 파라미터가 특정 컨디션에 부합하는지를 판단하고 부합할 경우에 특정 로직을 거치도록 지정할 수 있다
-- 반복적으로 불러올 필요가 없는 자원에 대해 자원이 존재한다면 
+
+
+---
+
+###  Interceptor 요청 가로채기
+
+- 핸들러가 실행되기 전/후의 요청을 처리할 수 있는 HandlerInterceptor , WebRequestInterceptor 두가지 인터셉터가 지원된다.
+- 
 
 
 

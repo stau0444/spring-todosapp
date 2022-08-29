@@ -3,6 +3,7 @@ package com.ugo.todoapp.commons.web.servlet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -24,6 +25,7 @@ public class ExecutionTimeHandlerInterceptor implements HandlerInterceptor, Orde
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+
         StopWatch stopWatch = new StopWatch(getHandlerName(handler));
         stopWatch.start();
         request.setAttribute(STOP_WATCH_ATTR_NAME, stopWatch);

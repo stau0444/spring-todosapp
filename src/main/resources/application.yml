@@ -30,10 +30,9 @@ server:
 logging:
   level:
     todoapp: debug
-    org.springframework.web: trace
+    org.springframework.web: debug
     org.springframework.beans: debug
-spring:
-  mvc:
-    static-path-pattern: /**
+    com.ugo.todoapp: debug
+
 
 
