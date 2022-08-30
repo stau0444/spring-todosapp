@@ -336,6 +336,7 @@ server:
 - 핵심은 느리고 비용이 많이 드는 통합 테스트나 E2E보다 저렴한 단위 테스트를 많이 만드는 것이다.
 
 
+<img width="407" alt="스크린샷 2022-08-30 오후 9 42 09" src="https://user-images.githubusercontent.com/51349774/187439856-b01b4236-79b2-4930-95da-d7abeb78c856.png">
 
 
 
