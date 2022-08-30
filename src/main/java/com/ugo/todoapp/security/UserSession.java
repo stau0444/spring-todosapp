@@ -2,6 +2,7 @@ package com.ugo.todoapp.security;
 
 import com.ugo.todoapp.core.user.domain.User;
 
+import java.security.Principal;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
@@ -12,7 +13,7 @@ import java.util.Set;
  *
  * @author springrunner.kr@gmail.com
  */
-public class UserSession {
+public class UserSession implements Principal {
 
     public static final String ROLE_USER = "ROLE_USER";
 
@@ -40,13 +41,13 @@ public class UserSession {
         return roles.contains(role);
     }
 
-//    @Override
-//    public String toString() {
-//        final StringBuilder sb = new StringBuilder("UserSession {");
-//        sb.append("user=").append(user);
-//        sb.append(", roles=").append(roles);
-//        sb.append(" }");
-//        return sb.toString();
-//    }
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("UserSession {");
+        sb.append("user=").append(user);
+        sb.append(", roles=").append(roles);
+        sb.append(" }");
+        return sb.toString();
+    }
 
 }

@@ -28,15 +28,11 @@ import java.util.stream.Stream;
 public class RolesVerifyHandlerInterceptor implements HandlerInterceptor, RolesAllowedSupport {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
-    private final UserSessionRepository repository;
-
-    public RolesVerifyHandlerInterceptor(UserSessionRepository repository) {
-        this.repository = repository;
-    }
 
     @Override
     public final boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         //HandlerMethod는 컨트롤러의 핸들러를 의미한다.
+
         if(handler instanceof HandlerMethod){
             RolesAllowed rolesAllowed = ((HandlerMethod) handler).getMethodAnnotation(RolesAllowed.class);
             if(Objects.isNull(rolesAllowed)){
@@ -44,13 +40,13 @@ public class RolesVerifyHandlerInterceptor implements HandlerInterceptor, RolesA
             }
             if(Objects.nonNull(rolesAllowed)){
                 log.debug("verify roles-allowed: {}" , rolesAllowed);
-                UserSession userSession = repository.get();
-                if(Objects.isNull(userSession)){
+
+                if(Objects.isNull(request.getUserPrincipal())){
                     throw new UnauthorizedAccessException();
                 }
                 //권한체크
                 Set<String> matchedRoles = Stream.of(rolesAllowed.value())
-                        .filter(role -> userSession.hasRole(role))
+                        .filter(request::isUserInRole)
                         .collect(Collectors.toSet());
 
                 log.debug("matchedRoles : {}" , matchedRoles);

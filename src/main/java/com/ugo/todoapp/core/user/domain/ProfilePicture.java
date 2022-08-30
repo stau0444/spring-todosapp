@@ -21,6 +21,8 @@ public class ProfilePicture {
         setUri(uri);
     }
 
+
+
     public URI getUri() {
         return uri;
     }

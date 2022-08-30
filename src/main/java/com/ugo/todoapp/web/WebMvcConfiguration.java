@@ -4,8 +4,10 @@ import com.ugo.todoapp.commons.web.servlet.ExecutionTimeHandlerInterceptor;
 import com.ugo.todoapp.commons.web.servlet.LoggingHandlerInterceptor;
 import com.ugo.todoapp.commons.web.view.CommaSeparatedValuesView;
 import com.ugo.todoapp.core.todos.domain.Todo;
+import com.ugo.todoapp.core.user.domain.ProfilePictureStorage;
 import com.ugo.todoapp.security.UserSessionRepository;
 import com.ugo.todoapp.security.web.servlet.RolesVerifyHandlerInterceptor;
+import com.ugo.todoapp.security.web.servlet.UserSessionFilter;
 import com.ugo.todoapp.security.web.servlet.UserSessionHandlerMethodArgumentResolver;
 import org.apache.juli.logging.Log;
 import org.slf4j.Logger;
@@ -23,6 +25,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.ObjectToStringHttpMessageConverter;
 import org.springframework.web.filter.CommonsRequestLoggingFilter;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -49,15 +52,23 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
     @Autowired
     private UserSessionRepository userSessionRepository;
 
+    @Autowired
+    private ProfilePictureStorage pictureStorage;
+
+//    @Override
+//    public void addReturnValueHandlers(List<HandlerMethodReturnValueHandler> handlers) {
+//        handlers.add(new UserController.ProfilePictureReturnValueHandler(pictureStorage));
+//    }
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(new UserSessionHandlerMethodArgumentResolver(userSessionRepository));
     }
 
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new RolesVerifyHandlerInterceptor(userSessionRepository));
+        registry.addInterceptor(new RolesVerifyHandlerInterceptor());
         registry.addInterceptor(new LoggingHandlerInterceptor());
         registry.addInterceptor(new ExecutionTimeHandlerInterceptor());
     }
@@ -111,6 +122,15 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
         CommonsRequestLoggingFilter crlf = new CommonsRequestLoggingFilter();
         filter.setFilter(crlf);
         filter.setUrlPatterns(Collections.singletonList("/*"));
+        return filter;
+    }
+    @Bean
+    public FilterRegistrationBean<UserSessionFilter> userSessionFilter(){
+        UserSessionFilter userSessionFilter = new UserSessionFilter(userSessionRepository);
+
+        FilterRegistrationBean<UserSessionFilter> filter = new FilterRegistrationBean<>();
+        filter.setFilter(userSessionFilter);
+        filter.setUrlPatterns(List.of("/*"));
         return filter;
     }
 
