@@ -9,6 +9,7 @@ import java.util.Objects;
  *
  * @author springrunner.kr@gmail.com
  */
+
 public class UserProfile {
 
     private static final String DEFAULT_PROFILE_PICTURE_URL = "/static/assets/img/profile-picture.png";

@@ -29,6 +29,7 @@ public class RolesVerifyHandlerInterceptor implements HandlerInterceptor, RolesA
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
+
     @Override
     public final boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         //HandlerMethod는 컨트롤러의 핸들러를 의미한다.
